@@ -124,7 +124,8 @@ class InvertedIndex:
 
     def search_word(self):
         """ Such nach Woerter """
-        userinput = raw_input("Please write up to two words separated by a space to find relevant document(s) \n")
+        #userinput = raw_input("Please write up to two words separated by a space to find relevant document(s) \n")
+        userinput = input("Please write up to two words separated by a space to find relevant document(s) \n")
         print("Please standby..")
         time.sleep(1)
         word_list = []
