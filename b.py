@@ -4,6 +4,7 @@
 """
 Copyright (2017) Hochschule Karlsruhe - Technik und Wirtschaft
 Jean-Luc Burot <jburot@gmail.com>
+Jean-Pierre Bourhis <jp.bourhis@gmail.com>
 """
 
 import re
