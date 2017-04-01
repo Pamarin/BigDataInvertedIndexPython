@@ -9,8 +9,12 @@ Jean-Pierre Bourhis <jp.bourhis@gmail.com>
 
 import re
 import sys
+#Compatilibity stuff cause 2.7 knows raw input but 3 don t
+if sys.version[0]=="2": input=raw_input
 import time
 
+
+#Give back common words with same ids from two InvertedIndex objects
 def intersect(list1,list2):
     interesect_inverted_lists = {}		
     l1=len(list1.inverted_lists)
@@ -74,7 +78,7 @@ def intersect(list1,list2):
                         #Both list can't be incremented
                         stop="true"
 
-       #If the common word between both list don't have common id, we remove it from the dictionary
+       #If the common words between both list don't have common ids, we remove it from the dictionary
         if len(interesect_inverted_lists[word]) == 0:
             del interesect_inverted_lists[word]
 
@@ -157,48 +161,24 @@ class InvertedIndex:
                  sys.exit()
         # End of function
 
-        # This Print the result if any match is found without specific order
-        #for word in word_list:
-            #if word in self.inverted_lists:
-               #print("Match found in inverted list for the term ", word , " id : " , self.inverted_lists[word])
-            #else:
-               #print("No Match found")
-
-         # This Print the result if any match is found without specific order
-        #print("Now Sorted")
         match_list = []
         relevant_id_list= []
         common_id_list = []
 
+        #If words given are countained anywhere in the document, we save it into a specific list
         for word in word_list:
              if word in self.inverted_lists:
                 match_list.append(word)
 
-
-
          # If Two words given are somewhere in the file, we need to check if they have common ids
         if len(match_list) == 2:
-              #print(match_list[0])
-              #print(match_list[1])
-              #for ids in self.inverted_lists[match_list[0]]:
-                  #print ("Myids " , ids)
-
-              # This works
               self.intersect_word(self.inverted_lists[match_list[0]], self.inverted_lists[match_list[1]])
-
-
               # Intersect id was put as self , because return list won t work
               common_id_list = self.intersect_id
-              #print("Common")
-              #for id in common_id_list:
-                 # print(id)
+
               # its possible they have something in common or nothing at all
               if len(common_id_list) > 0:
-                 # its possible they have something in common
-                 #print("Common Match found for two words")
                  relevant_id_list = common_id_list
-                 #for id in relevant_id_list:
-                     #print(self.document_line[id - 1])
                  # Need to add the other uncommon ids for list 1
                  for other_ids in self.inverted_lists[match_list[0]]:
                      if other_ids not in relevant_id_list:
@@ -209,16 +189,12 @@ class InvertedIndex:
                         relevant_id_list.append(other_ids)
 
               else:
-                 #print("No Common Match found for two words")
+                 #No Common Match found for two words
                  relevant_id_list = self.inverted_lists[match_list[0]] + self.inverted_lists[match_list[1]]
         elif len(match_list) == 1:
-             #print("Only one word Match found")
              relevant_id_list = self.inverted_lists[match_list[0]]
-        #print("relevant ids")
-        #for id in relevant_id_list:
-            #print(id)
-        #print("..")
 
+        # Give back the result
         print("Document Matched:")
         if len(relevant_id_list) > 0:
            nb_loop=0
